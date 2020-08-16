@@ -22,7 +22,7 @@ appointmentsRouter.post('/', (req, res) => {
     return res.status(400).json({ message: 'Já há agendamentos' })
   }
 
-  const appointment = appointmentsRepository.create(provider, parsedDate)
+  const appointment = appointmentsRepository.create({ provider, date: parsedDate })
   return res.json(appointment)
 })
 
