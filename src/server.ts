@@ -3,10 +3,14 @@ import routes from './routes'
 
 const app = express()
 
-app.get('/', (request, response) => {
-    return response.json({ message: 'Oie bb' })
-})
+app.use(express.json())
+
+app.use(routes)
+
+// app.get('/', (request, response) => {
+//   return response.json({ message: 'Oie mudei' })
+// })
 
 app.listen(3333, () => {
-    console.log('aki 😀')
+  console.log('aki 😀')
 })
