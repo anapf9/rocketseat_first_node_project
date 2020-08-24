@@ -5,6 +5,9 @@ interface CreateAppointmentsDTO {
   provider: string,
   date: Date
 }
+
+// Dependency Inversion
+
 class AppointmentsRepository {
   private appointments: Appointment[]
 
