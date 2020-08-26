@@ -1,16 +1,14 @@
-import { uuid } from 'uuidv4'
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+@Entity('Appointments')
 class Appointment {
+  @PrimaryGeneratedColumn('uuid')
   id: string
-  provider: string
-  date: Date
 
-  // A linha seguinte (como se fosse uma função) Omit<> recebe o primeiro parametro que é o tipo e o segundo a variavel que será omitido
-  // serve para esse caso que estamos criando uma variavel estatica a partir de uma biblioteca externa
-  constructor({ provider, date }: Omit<Appointment, 'id'>) {
-    this.id = uuid()
-    this.provider = provider;
-    this.date = date
-  }
+  @Column()
+  provider: string
+
+  @Column('time with time zone')
+  date: Date
 }
 // O constructor serve para quando criar uma nova instancia de Appointments possamos passar os parametros
 
