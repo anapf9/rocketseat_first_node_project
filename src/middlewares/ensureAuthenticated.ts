@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { verify } from 'jsonwebtoken'
 import authConfig from './../config/auth'
+import AppError from './../errors/AppError'
 
 interface tokenPayload {
   iat: number,
@@ -14,7 +15,7 @@ export default function ensureAuthenticated(request: Request, response: Response
   const authHeader = request.headers.authorization
 
   if (!authHeader) {
-    throw new Error("JWT token esta faltando");
+    throw new AppError("JWT token esta faltando", 401);
   }
   // Bearer 
   // a seguinte expressao retorna uma array
@@ -37,6 +38,6 @@ export default function ensureAuthenticated(request: Request, response: Response
     return next()
   }
   catch {
-    throw new Error("JWT invalido");
+    throw new AppError("JWT invalido", 401);
   }
 } 
