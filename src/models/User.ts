@@ -1,14 +1,17 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm'
-@Entity('appointments')
-class Appointment {
+@Entity('users')
+class User {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
   @Column()
-  provider: string
+  name: string
 
-  @Column('time with time zone')
-  date: Date
+  @Column()
+  email: string
+
+  @Column()
+  password: string
 
   @CreateDateColumn()
   created_at: Date
@@ -16,6 +19,6 @@ class Appointment {
   @UpdateDateColumn()
   updated_at: Date
 }
-// O constructor serve para quando criar uma nova instancia de Appointments possamos passar os parametros
+// O constructor serve para quando criar uma nova instancia de Users possamos passar os parametros
 
-export default Appointment
+export default User

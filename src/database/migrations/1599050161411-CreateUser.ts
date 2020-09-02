@@ -1,11 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
+import { formatDistanceToNow } from "date-fns";
 
-export class CreateAppointments1598405582667 implements MigrationInterface {
+export default class CreateUser1599050161411 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'appointments',
+        name: 'User',
         columns: [
           {
             name: 'id',
@@ -15,12 +16,18 @@ export class CreateAppointments1598405582667 implements MigrationInterface {
             default: 'uuid_generate_v4()'
           },
           {
-            name: 'provider',
+            name: 'name',
             type: 'varchar',
+            isNullable: false
           },
           {
-            name: 'date',
-            type: 'timestamp with time zone',
+            name: 'email',
+            type: 'varchar',
+            isUnique: true
+          },
+          {
+            name: 'password',
+            type: 'varchar',
           },
           {
             name: 'created_at',
@@ -38,7 +45,7 @@ export class CreateAppointments1598405582667 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('appointments')
+    await queryRunner.dropTable('User')
   }
 
 }
