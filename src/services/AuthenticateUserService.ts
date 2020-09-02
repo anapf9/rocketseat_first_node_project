@@ -2,6 +2,7 @@ import User from './../models/User'
 import { getRepository } from 'typeorm'
 import { compare } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
+import authConfig from './../config/auth'
 
 interface Request {
   email: string,
@@ -20,20 +21,20 @@ class AuthenticateUserService {
 
     if (!user) {
       throw new Error("Email ou senhas incorretos");
-
     }
 
     const passwordMatched = await compare(password, user.password)
 
     if (!passwordMatched) {
       throw new Error("Email ou senhas incorretos");
-
     }
+    // bacana essa desetruturação:
+    const { secret, expiresIn } = authConfig.jwt
     // o segundo parametro podemos usar um hash do md5.cz reinventese
     //o terceiro sempre sera o id do usuario que fez a requisição
-    const token = sign({}, '97a8ba531e3242a25ea0fcb7fee65cc7', {
+    const token = sign({}, secret, {
       subject: user.id,
-      expiresIn: '1d'
+      expiresIn: expiresIn
     })
     return { user, token }
   }
