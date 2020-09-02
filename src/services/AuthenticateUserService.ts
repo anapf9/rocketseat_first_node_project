@@ -1,6 +1,7 @@
 import User from './../models/User'
 import { getRepository } from 'typeorm'
 import { compare } from 'bcryptjs'
+import { sign } from 'jsonwebtoken'
 
 interface Request {
   email: string,
@@ -8,7 +9,8 @@ interface Request {
 }
 
 interface Response {
-  user: User
+  user: User,
+  token: string
 }
 class AuthenticateUserService {
   public async execute({ email, password }: Request): Promise<Response> {
@@ -27,9 +29,13 @@ class AuthenticateUserService {
       throw new Error("Email ou senhas incorretos");
 
     }
-
-    //Agora esta autentidado
-    return { user }
+    // o segundo parametro podemos usar um hash do md5.cz reinventese
+    //o terceiro sempre sera o id do usuario que fez a requisição
+    const token = sign({}, '97a8ba531e3242a25ea0fcb7fee65cc7', {
+      subject: user.id,
+      expiresIn: '1d'
+    })
+    return { user, token }
   }
 }
 
